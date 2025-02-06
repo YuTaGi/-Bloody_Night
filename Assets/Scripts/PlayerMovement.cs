@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private Animator anim;
     private bool grounded;
+    private int Life = 3;
+    private bool isDead = false;
+    public TextMeshProUGUI LifeText;
     
     private void Awake()
     {
@@ -38,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("Walk", horizontalInput != 0);
         anim.SetBool("grounded", grounded);
 
+        if (isDead)
+        {
+            return; 
+        }
+
     }
  
     private void Jump()
@@ -55,5 +64,24 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
             grounded = true;
 
+        //if (collision.gameObject.tag == "Enemy")
+            //speed = 0;
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+           Life--;
+           LifeText.text = "LIFE : " + Life.ToString();
+        }
+        if (Life <= 0)
+        {
+            isDead = true;  // ตั้งค่าสถานะว่า Player ตายแล้ว
+            LifeText.text = "Game Over";  // แสดงข้อความ "Game Over"
+            LifeText.text = "LIFE: " + Life.ToString();  // แสดงคะแนนสุดท้าย
+
+        }    
+
     }
+
+
+
 }
