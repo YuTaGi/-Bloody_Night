@@ -8,6 +8,12 @@ TagManager:
   - Exit
   - Ground
   - BackToMenu
+  - Eenemy
+  - Enemy
+  - Die
+  - Heal
+  - Plays
+  - BackToMenu1
   layers:
   - Default
   - TransparentFX
@@ -44,4 +50,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 2905996025
+    locked: 0
+  - name: b
+    uniqueID: 2575986745
+    locked: 0
+  - name: m
+    uniqueID: 2301603057
+    locked: 0
+  - name: f
+    uniqueID: 3186701107
     locked: 0

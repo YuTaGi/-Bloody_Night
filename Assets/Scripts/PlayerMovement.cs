@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private int Life = 3;
     private bool isDead = false;
     public TextMeshProUGUI LifeText;
+    public GameObject GameOver;
     
     private void Awake()
     {
@@ -44,9 +46,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (isDead)
         {
-            return; 
+            body.velocity = Vector2.zero;
+            anim.SetBool("Walk", false);
+            anim.SetBool("grounded", true);
+            GameOver.SetActive(true);
+            return;
         }
-
     }
  
     private void Jump()
@@ -64,23 +69,43 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
             grounded = true;
 
-        //if (collision.gameObject.tag == "Enemy")
-            //speed = 0;
-
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-           Life--;
-           LifeText.text = "LIFE : " + Life.ToString();
+            Life--;
+            LifeText.text = "LIFE : " + Life.ToString();
+
+            if (Life <= 0)
+            {
+                Die();
+            }
         }
-        if (Life <= 0)
+        if (collision.gameObject.CompareTag("Play"))
         {
-            isDead = true;  // ตั้งค่าสถานะว่า Player ตายแล้ว
-            LifeText.text = "Game Over";  // แสดงข้อความ "Game Over"
-            LifeText.text = "LIFE: " + Life.ToString();  // แสดงคะแนนสุดท้าย
-
-        }    
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        if (collision.gameObject.tag == "Die")
+        {
+            isDead = true;
+        }
+        if (collision.gameObject.tag == "Heal")
+        {
+            Life++;
+            LifeText.text = "LIFE : " + Life.ToString();
+        }
     }
+
+    private void Die()
+    {
+        isDead = true;
+        body.velocity = Vector2.zero;
+        body.isKinematic = true;
+    }
+
+    
 
 
 

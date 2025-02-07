@@ -27,4 +27,19 @@ public class MenuManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
+    public void StartGame1()
+    {
+        if (gameObject.CompareTag("Plays"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        }
+    }
+    public void BackToMenu1()
+    {
+        if (gameObject.CompareTag("BackToMenu1"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        }
+    }    
+
 }
